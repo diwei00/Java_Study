@@ -1,0 +1,19 @@
+public class MyTOString {
+    public static String MyTOString2(int[] arr){
+        String ret = "[";
+        for(int i = 0; i < arr.length; i++){
+            ret += arr[i];
+            if(i != arr.length - 1){
+                ret += ",";
+                ret += " ";
+            }
+        }
+        ret += "]";
+        return ret;
+    }
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        String ret = MyTOString2(arr);
+        System.out.println(ret);
+    }
+}
