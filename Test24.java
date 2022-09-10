@@ -1,5 +1,3 @@
-import javax.crypto.spec.PSource;
-
 //泛型的上界，检查只能传成Comparable子类，会对传入的参数进行限制，最终会擦除为限制的最高父类
 //如果不指定上界，则会默认为T extends Object 擦除为Object
 class TestDemo2<T extends Comparable<T>> {
@@ -67,7 +65,7 @@ class TestDemo3 {
         return max;
     }
 }
-class TestDemo4<T> {
+class TestDemo4<T> extends Object{
     private T date;
     public T getDate() {
         return this.date;
@@ -78,14 +76,29 @@ class TestDemo4<T> {
 
 }
 public class Test24 {
+    //通配符的下界，只能传递String或者String的父类
+    //不能获取数据，因为获取到数据无法接收
+    private static void fun2(TestDemo4<? super String> tmp) {
+        tmp.setDate("bbb");
+    }
     //<?>通配符  可以传递任何类型的对象
     //<?>只是用来编译检查的，最终会擦除掉
-    private static void fun(TestDemo4<?> tmp) {
+    //通配符的上界，最终会擦除成Object，只能传递Object的子类
+    //不可以修改，因为站在tmp角度。不清楚传递什么类型
+    private static void fun(TestDemo4<? extends Object> tmp) {
         System.out.println(tmp.getDate());
+
         //error 不确定传递过来会是什么类型，无法设置
         //tmp.setDate(10);
     }
+
     public static void main(String[] args) {
+        TestDemo4<String> testDemo4 = new TestDemo4<>();
+        fun(testDemo4);
+        fun2(testDemo4);
+        fun(testDemo4);
+    }
+    public static void main5(String[] args) {
         //<String>只是用来编译检查，运行时会被擦除掉
         TestDemo4<String> testDemo4 = new TestDemo4<>();
         testDemo4.setDate("wwwww");
